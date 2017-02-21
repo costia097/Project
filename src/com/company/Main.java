@@ -7,14 +7,10 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-	// write your code here
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                CutFrame frame = new CutFrame();
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setVisible(true);
-            }
+        EventQueue.invokeLater(() -> {
+            CutFrame frame = new CutFrame();
+            frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            frame.setVisible(true);
         });
     }
 }
