@@ -2,13 +2,8 @@ package com.company;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.*;
 
-/**
- * Created by Mark Hychka on 06.01.2017.
- */
 public class CutFrame extends JFrame {
     public CutFrame() {
         setTitle("File cutter");
@@ -23,11 +18,7 @@ public class CutFrame extends JFrame {
         JLabel label = new JLabel("Ready");
         getContentPane().add(label, BorderLayout.SOUTH);
 
-        exit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
+        exit.addActionListener(e -> System.exit(0));
         JPanel panel = new JPanel();
         JButton cut = new JButton("Cut");
         panel.add(cut);
@@ -35,46 +26,42 @@ public class CutFrame extends JFrame {
         panel.add(restore);
         add(panel);
 
-        cut.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser fileopen = new JFileChooser();
-                int ret = fileopen.showDialog(null, "Choose file");
-                if (ret == JFileChooser.APPROVE_OPTION) {
-                    File file = fileopen.getSelectedFile();
-                    if(file.length()/9>=2_000_000_000)
-                        JOptionPane.showMessageDialog(CutFrame.this,
-                                "Too big size",
-                                "Too big file",
-                                JOptionPane.ERROR_MESSAGE);
-                    else {
-                        label.setText(file.getName());
-                        try {
-                            cutting(file);
-                        } catch (IOException e1) {
-                            JOptionPane.showMessageDialog(CutFrame.this,
-                                    "File doesn't exist!",
-                                    "File not found",
-                                    JOptionPane.ERROR_MESSAGE);
-                        }
-                    }
-                }
-            }
-        });
-        restore.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser fileopen = new JFileChooser();
-                int ret = fileopen.showDialog(null, "Choose part");
-                if (ret == JFileChooser.APPROVE_OPTION) {
-                    File file = fileopen.getSelectedFile();
+        cut.addActionListener(e -> {
+            JFileChooser fileopen = new JFileChooser();
+            int ret = fileopen.showDialog(null, "Choose file");
+            if (ret == JFileChooser.APPROVE_OPTION) {
+                File file = fileopen.getSelectedFile();
+                if(file.length()/9>=2_000_000_000)
+                    JOptionPane.showMessageDialog(CutFrame.this,
+                            "Too big size",
+                            "Too big file",
+                            JOptionPane.ERROR_MESSAGE);
+                else {
                     label.setText(file.getName());
                     try {
-                        restoration(file);
+                        cutting(file);
                     } catch (IOException e1) {
                         JOptionPane.showMessageDialog(CutFrame.this,
                                 "File doesn't exist!",
                                 "File not found",
                                 JOptionPane.ERROR_MESSAGE);
                     }
+                }
+            }
+        });
+        restore.addActionListener(e -> {
+            JFileChooser fileopen = new JFileChooser();
+            int ret = fileopen.showDialog(null, "Choose part");
+            if (ret == JFileChooser.APPROVE_OPTION) {
+                File file = fileopen.getSelectedFile();
+                label.setText(file.getName());
+                try {
+                    restoration(file);
+                } catch (IOException e1) {
+                    JOptionPane.showMessageDialog(CutFrame.this,
+                            "File doesn't exist!",
+                            "File not found",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
